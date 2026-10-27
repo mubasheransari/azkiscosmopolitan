@@ -1,16 +1,16 @@
 import Link from "next/link";
 import Icon from "@/components/Icon";
 import Photo from "@/components/Photo";
-import { company, services, process, why, projects, industries, about, categories } from "@/lib/data";
+import { company, services, process, why, projects, industries, about, categories, whatWeDo, glance } from "@/lib/data";
 
 const strip = ["bolt", "hub", "phone", "video", "lock", "buildings", "cube", "cog"];
 
 export default function Home() {
   const stats = [
     { icon: "clock", n: company.established, l: "Established" },
-    { icon: "shield", n: "4+", l: "Decades of Experience" },
+    { icon: "shield", n: company.registeredMod, l: "Registered with MoD" },
     { icon: "users", n: company.staff, l: "Dedicated Personnel" },
-    { icon: "pin", n: company.offices.length, l: "Major Cities" },
+    { icon: "pin", n: "4+", l: "Decades of Experience" },
   ];
   return (
     <>
@@ -19,14 +19,14 @@ export default function Home() {
         <div className="hero-img" />
         <div className="wrap hero-in">
           <div className="hero-copy">
-            <p className="kicker">Integrated Infrastructure &amp; Turnkey Solutions</p>
-            <h1>From Concept to Commissioning.</h1>
-            <h2 className="sub">One Partner. Complete Solution.</h2>
-            <p className="desc">We provide end-to-end infrastructure, engineering and technology solutions — from material procurement to installation, testing, commissioning and final handover.</p>
-            <Link className="btn gold-btn" href="/services">Explore Our Services <Icon name="arrow" size={15} sw={2} /></Link>
+            <p className="kicker">AZKIS Cosmopolitan &middot; Serving MoD Since {company.registeredMod}</p>
+            <h1>Government &amp; Defence.</h1>
+            <h2 className="sub">Mobility Made Seamless.</h2>
+            <p className="desc">Registered with the Ministry of Defence in 1975 and serving the MoD and its allied establishments with an impeccable record — importing, indenting and delivering turnkey solutions.</p>
+            <Link className="btn gold-btn" href="/products">Explore Our Products <Icon name="arrow" size={15} sw={2} /></Link>
           </div>
           <aside className="hero-side" aria-hidden="true">
-            <span>Engineering</span><span>Integration</span><span>Construction</span><span>Technology</span>
+            <span>Defence</span><span>Aviation</span><span>Medical</span><span>Infrastructure</span>
             <i />
           </aside>
         </div>
@@ -41,6 +41,49 @@ export default function Home() {
               <span>{s.short}</span>
             </Link>
           ))}
+        </div>
+      </section>
+
+      {/* HISTORY & EXPERIENCE (live-site content) */}
+      <section className="section">
+        <div className="wrap split">
+          <div className="prose">
+            <span className="eyebrow caps">Our History &amp; Experience</span>
+            <h2 style={{ margin: ".4rem 0 1rem" }}>Established in {company.established}. Registered with the MoD in {company.registeredMod}.</h2>
+            <p>{about.story[0]}</p>
+            <p>We are contributing our share in the development of our country, and provide a base for foreign investors to promote their products in Pakistan. AZKIS Cosmopolitan is managed by a team of {company.staff} devoted personnel.</p>
+            <div style={{ marginTop: "1.2rem" }}><Link href="/about" className="btn gold-btn sm">Read Our Full Story <Icon name="arrow" size={12} sw={2} /></Link></div>
+          </div>
+          <div>
+            <h3 style={{ marginBottom: "1rem" }}>At a Glance</h3>
+            <ul className="glance">{glance.map((g) => <li key={g}>{g}</li>)}</ul>
+          </div>
+        </div>
+      </section>
+
+      {/* WHAT WE DO + PRODUCTS (live-site content) */}
+      <section className="section" style={{ paddingBottom: "1.6rem" }}>
+        <div className="wrap">
+          <div className="proj-head">
+            <div>
+              <span className="eyebrow caps">What We Do</span>
+              <h2>{whatWeDo.title}</h2>
+              <p>{whatWeDo.text}</p>
+            </div>
+            <Link href="/association" className="btn outline sm">Partners / Association <Icon name="arrow" size={12} sw={2} /></Link>
+          </div>
+          <div className="svc-grid">
+            {categories.map((c) => (
+              <Link key={c.id} href={`/products#${c.id}`} className="svc">
+                <Photo src={`/images/products/${c.id}.jpg`} icon={c.icon} />
+                <div className="svc-body">
+                  <h3>{c.title}</h3>
+                  <p>{c.blurb}</p>
+                  <span className="more">Our Products <Icon name="arrow" size={12} sw={2} /></span>
+                </div>
+              </Link>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -173,6 +216,34 @@ export default function Home() {
                   <div><b>{c.title}</b><small>{c.blurb}</small><em>View products →</em></div>
                 </Link>
               ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* CONTACT (live-site content) */}
+      <section className="section alt">
+        <div className="wrap">
+          <div className="sec-title"><span className="eyebrow caps">Contact Us</span><h2>Our Offices in Rawalpindi &amp; Karachi</h2></div>
+          <div className="grid g3">
+            {company.offices.map((o) => (
+              <div className="office" key={o.city}>
+                <span className="tag">{o.label}</span>
+                <h3>{o.city}</h3>
+                <p>{o.address.join(" ")}</p>
+                <br />
+                {o.phones.map((ph) => <a key={ph} href={`tel:${ph.replace(/[^+\d]/g, "")}`}>{ph}</a>)}
+                <p>Fax: {o.fax}</p>
+              </div>
+            ))}
+            <div className="office">
+              <span className="tag">Email &amp; Hours</span>
+              <h3>Write to Us</h3>
+              {company.emails.map((e) => <a key={e} href={`mailto:${e}`}>{e}</a>)}
+              <br />
+              <p>{company.hours}</p>
+              <br />
+              <Link href="/contact" className="btn gold-btn sm">Contact Us <Icon name="arrow" size={12} sw={2} /></Link>
             </div>
           </div>
         </div>
